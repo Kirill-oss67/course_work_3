@@ -15,6 +15,18 @@ class RegisterView(Resource):
         new_data = AuthRegisterRequest().load(data)
         AuthService(db.session).register(
             email=new_data['email'],
-            password_hash=new_data['password'],
+            password=new_data['password'],
         )
         return "", 200
+
+
+@auth_ns.route("/login/")
+class LoginView(Resource):
+    def post(self):
+        data = request.json
+        new_data = AuthRegisterRequest().load(data)
+        tokens = AuthService(db.session).login(
+            email=new_data['email'],
+            password=new_data['password'],
+        )
+        return tokens, 200

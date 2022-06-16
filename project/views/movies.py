@@ -1,5 +1,5 @@
 from flask_restx import abort, Namespace, Resource
-
+from flask import request
 from project.exceptions import ItemNotFound
 from project.services.movie_service import MoviesService
 from project.setup_db import db
@@ -11,8 +11,11 @@ movies_ns = Namespace("movies")
 class MoviesView(Resource):
     @movies_ns.response(200, "OK")
     def get(self):
+        page = request.args.get("page")
+        status = request.args.get("status")
         """Get all movies"""
-        return MoviesService(db.session).get_all_movies()
+        return MoviesService(db.session).get_all_movies(page,
+                                                        status)
 
 
 @movies_ns.route("/<int:movie_id>")
