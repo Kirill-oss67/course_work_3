@@ -1,4 +1,4 @@
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, abort
 
 from project.schemas.auth import AuthRegisterRequest
 from project.setup_db import db
@@ -29,4 +29,12 @@ class LoginView(Resource):
             email=new_data['email'],
             password=new_data['password'],
         )
+        return tokens, 200
+
+    def put(self):
+        data = request.json
+        refresh_token = data.get('refresh_token')
+        if refresh_token is None:
+            abort(400)
+        tokens = AuthService(db.session).refresh_token(refresh_token)
         return tokens, 200

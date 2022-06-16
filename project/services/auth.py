@@ -1,11 +1,11 @@
 import jwt
+from flask_restx import abort
 
 from project.dao.auth import AuthDao
 import hashlib
 import base64
 import hmac
 from project.exceptions import UserNotFound, WrongPassword
-from project.schemas.auth import UserCreatedSchema
 from project.services.base import BaseService
 from flask import current_app
 from datetime import datetime, timedelta
@@ -57,8 +57,18 @@ class AuthService(BaseService):
             "refresh_token": refresh_token
         }
 
+    def refresh_token(self, refresh_token):
+        try:
+            data = jwt.decode(jwt=refresh_token, key=current_app.config['SECRET_KEY'],
+                              algorithms=current_app.config['JWT_ALGO'])
+        except Exception:
+            abort(400)
+        email = data.get("email")
+        user = AuthDao(self._db_session).get_user_by_email(email=email, self=self)
+        return self.generate_tokens(user)
+
     def login(self, email: str, password: str):
-        user = AuthDao.get_user_by_email(email=email,self=self)
+        user = AuthDao.get_user_by_email(email=email, self=self)
         if user is None:
             raise UserNotFound
 
