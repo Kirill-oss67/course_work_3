@@ -15,8 +15,10 @@ class BaseConfig:
     TOKEN_EXPIRE_MINUTES = 15
     TOKEN_EXPIRE_DAYS = 130
 
-    PWD_HASH_SALT = base64.b64decode("salt")
-    PWD_HASH_ITERATIONS = 100_000
+    JWT_ALGO = "HS256"
+    HASH_NAME = 'sha256'
+    HASH_SALT = base64.b64decode("salt")
+    HASH_ITERATIONS = 100_000
 
 
 class TestingConfig(BaseConfig):
