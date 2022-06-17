@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 class AuthService(BaseService):
 
     @staticmethod
-    def __get_hash(password: str):
+    def get_hash(password: str):
         hashed = hashlib.pbkdf2_hmac(
             hash_name=current_app.config["HASH_NAME"],
             salt=current_app.config['HASH_SALT'],
@@ -24,7 +24,7 @@ class AuthService(BaseService):
         return base64.b64encode(hashed).decode('utf-8')
 
     def register(self, email: str, password: str):
-        password_hash = self.__get_hash(password=password)
+        password_hash = self.get_hash(password=password)
         return AuthDao(self._db_session).create(email=email, password_hash=password_hash)
 
     @staticmethod
@@ -72,7 +72,7 @@ class AuthService(BaseService):
         if user is None:
             raise UserNotFound
 
-        password_hash = self.__get_hash(password=password)
+        password_hash = self.get_hash(password=password)
         if not self.compare_passwords(user['password_hash'], password_hash):
             raise WrongPassword
 
