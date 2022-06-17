@@ -20,7 +20,7 @@ class UserService(BaseService):
 
     def update_user(self, data, token):
         user = self.get_user(token)
-        return UserDAO.update_user(user=user, data=data, self=UserDAO)
+        return UserDAO(self._db_session).update_user(user=user, data=data)
 
     def update_passwords(self, password_1, password_2, token):
         user = self.get_user(token)
@@ -28,4 +28,4 @@ class UserService(BaseService):
         if not AuthService.compare_passwords(password_1_hash, user.password_hash):
             abort(400)
         password_2_hash = AuthService.get_hash(password_2)
-        return UserDAO.update_password(password_hash=password_2_hash, user=user, self=UserDAO )
+        return UserDAO(self._db_session).update_password(password_hash=password_2_hash, user=user )
