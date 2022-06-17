@@ -8,7 +8,7 @@ user_ns = Namespace('user')
 
 @user_ns.route('/')
 class UserView(Resource):
-    @auth_required
+    # @auth_required
     def get(self):
         data_tokens = request.headers['Authorization']
         token = data_tokens.split('Bearer')[-1]

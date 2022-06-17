@@ -11,7 +11,7 @@ from flask import current_app
 
 class UserService(BaseService):
     def get_user(self, token):
-        breakpoint()
+
         data = jwt.decode(jwt=token, key=current_app.config['SECRET_KEY'],
                           algorithms=current_app.config['JWT_ALGO'])
         email = data.get("email")

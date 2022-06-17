@@ -51,11 +51,17 @@ class AuthService(BaseService):
             payload=refresh_payload,
             key=current_app.config['SECRET_KEY'],
             algorithm=current_app.config['JWT_ALGO'])
-
+        data = jwt.decode(access_token, current_app.config['SECRET_KEY'], algorithms=current_app.config['JWT_ALGO'])
+        data1 = jwt.decode(refresh_token, current_app.config['SECRET_KEY'], algorithms=current_app.config['JWT_ALGO'])
+        print(data,data1)
         return {
             'access_token': access_token,
             "refresh_token": refresh_token
         }
+
+
+
+
 
     def refresh_token(self, refresh_token):
         try:
