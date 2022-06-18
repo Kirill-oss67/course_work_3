@@ -30,7 +30,7 @@ class UserView(Resource):
     def put(self):
         data = request.json
         data_tokens = request.headers['Authorization']
-        token = data_tokens.split('Bearer')[-1]
+        token = data_tokens.split('Bearer ')[-1]
         if ['password_1', 'password_2'] not in data.values():
             abort(400)
         password_1 = data['password_1']
