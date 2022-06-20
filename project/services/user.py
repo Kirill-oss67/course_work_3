@@ -16,7 +16,7 @@ class UserService(BaseService):
                           algorithms=current_app.config['JWT_ALGO'])
         email = data.get("email")
         user = AuthDao(self._db_session).get_user_by_email(email=email, self=self)
-        return UserSchema().dump(user)
+        return user
 
     def update_user(self, data, token):
         user = self.get_user(token)
