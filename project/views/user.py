@@ -12,7 +12,7 @@ class UserView(Resource):
     @auth_required
     def get(self):
         data_tokens = request.headers['Authorization']
-        token = data_tokens.split('Bearer')[-1]
+        token = data_tokens.split('Bearer ')[-1]
         user = UserService(db.session).get_user(token=token)
         return user, 200
 
@@ -20,7 +20,7 @@ class UserView(Resource):
     def patch(self):
         data = request.json
         data_tokens = request.headers['Authorization']
-        token = data_tokens.split('Bearer')[-1]
+        token = data_tokens.split('Bearer ')[-1]
         if UserService(db.session).update_user(token=token, data=data):
             return '', 200
         else:
