@@ -16,6 +16,7 @@ class UserDAO:
         self._db_session.add(user)
         self._db_session.commit()
 
+
     def update_password(self,user, password_hash):
         user.password_hash = password_hash
         self._db_session.add(user)
