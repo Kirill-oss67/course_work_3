@@ -1,5 +1,5 @@
 from sqlalchemy.orm.scoping import scoped_session
-from project.dao.models.user import User
+
 
 
 class UserDAO:
@@ -8,11 +8,11 @@ class UserDAO:
 
     def update_user(self, user, data):
         if 'name' in data:
-            user['name'] = data.get('name')
+            user.name = data.get('name')
         elif 'surname' in data:
-            user['surname'] = data.get('surname')
+            user.surname = data.get('surname')
         elif 'favorite_genre' in data:
-            user['favorite_genre'] = data.get('favorite_genre')
+            user.favorite_genre = data.get('favorite_genre')
         self._db_session.add(user)
         self._db_session.commit()
 
