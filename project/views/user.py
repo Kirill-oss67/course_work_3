@@ -31,9 +31,10 @@ class UserView(Resource):
         data = request.json
         data_tokens = request.headers['Authorization']
         token = data_tokens.split('Bearer ')[-1]
-        if 'password_1' not in data.keys:
+        print(data.keys)
+        if 'password_1' not in data:
             abort(400)
-        if 'password_2' not in data.keys():
+        if 'password_2' not in data:
             abort(400)
         password_1 = data['password_1']
         password_2 = data['password_2']
