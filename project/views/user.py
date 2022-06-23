@@ -27,7 +27,7 @@ class UserView(Resource):
             abort(400)
 
 
-@user_ns.route('/password/')
+@user_ns.route('/password')
 class PasswordView(Resource):
     @auth_required
     def put(self):
