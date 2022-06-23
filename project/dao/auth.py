@@ -25,3 +25,12 @@ class AuthDao():
             return UserCreatedSchema().dump(user)
 
         return None
+
+    @staticmethod
+    def get_user_by_email2(self, email: str):
+        user = self._db_session.query(User).filter(User.email == email).one_or_none()
+        if user is not None:
+            return user
+
+        return None
+

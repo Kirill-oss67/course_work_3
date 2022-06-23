@@ -27,7 +27,7 @@ class UserView(Resource):
             abort(400)
 
 
-@user_ns.route('/password')
+@user_ns.route('/password/')
 class PasswordView(Resource):
     @auth_required
     def put(self):
@@ -35,12 +35,12 @@ class PasswordView(Resource):
         data_tokens = request.headers['Authorization']
         token = data_tokens.split('Bearer ')[-1]
         print(data.keys)
-        if 'password_1' not in data:
+        if 'old_password' not in data:
             abort(400)
-        if 'password_2' not in data:
+        if 'new_password' not in data:
             abort(400)
-        password_1 = data['password_1']
-        password_2 = data['password_2']
+        password_1 = data['old_password']
+        password_2 = data['new_password']
         if UserService(db.session).update_passwords(password_1, password_2, token):
             return '', 200
         else:
