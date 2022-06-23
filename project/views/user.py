@@ -21,10 +21,7 @@ class UserView(Resource):
         data_tokens = request.headers['Authorization']
         data = request.json
         token = data_tokens.split('Bearer ')[-1]
-        if UserService(db.session).update_user(token=token, data=data):
-            return '', 200
-        else:
-            abort(400)
+        UserService(db.session).update_user(token=token, data=data)
 
 
 @user_ns.route('/password/')
@@ -41,7 +38,5 @@ class PasswordView(Resource):
             abort(400)
         password_1 = data['old_password']
         password_2 = data['new_password']
-        if UserService(db.session).update_passwords(password_1, password_2, token):
-            return '', 200
-        else:
-            abort(400)
+        UserService(db.session).update_passwords(password_1, password_2, token)
+
